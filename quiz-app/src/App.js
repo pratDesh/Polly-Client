@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Question from './components/Question';
 import quizJsonQuestions from './api/quizJsonQuestions';
 import quizQuestions from './api/quizJsonQuestions';
-import Quiz from './components/Quiz';
-// import "react-bootstrap/dist/react-bootstrap.min.js";
+import Poll from './poll/Poll';
 
 class App extends Component{
 
@@ -101,7 +99,7 @@ class App extends Component{
 
   renderQuiz(key){
     return(
-      <Quiz 
+      <Poll 
       answer = {this.state.answer}
       answerOptions = {this.state.answerOptions}
       questionId = {this.state.questionId}
@@ -117,7 +115,7 @@ class App extends Component{
   render(){
     console.log('Before App Render '+this.state.answerSelected);
     return(
-      <div className="App">
+      <div className="poll-container">
         {quizJsonQuestions.map(this.renderQuiz)}
       </div>
     );

@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Question from './Question';
-import QuestionCount from './QuestionCount';
-import AnswerOption from './AnswerOption';
 import { CSSTransitionGroup } from 'react-transition-group';
-import QuestionProfile from './QuestionProfile';
 import ReactInfo from './ReactInfo';
 import PollChoices from './PollChoice';
+import UserInfo from './UserInfo';
 
-class Quiz extends Component {
+class Poll extends Component {
 
   constructor(props){
     super(props)
@@ -24,16 +22,6 @@ class Quiz extends Component {
 
   renderAnswerOptions(key){
     return(
-        // <AnswerOption 
-        //     key={key.content}
-        //     answerContent={key.content}
-        //     answerType={key.type}
-        //     answer={this.props.answer}
-        //     questionId={this.props.questionId}
-        //     onAnswerSelected={this.props.onAnswerSelected}
-        //     isAnswerSelected = {this.isAnswerSelected(key.type)}
-        // />
-
         <PollChoices 
           choice={key.content}
           choiceSelected={this.choiceSelected}
@@ -58,7 +46,7 @@ isAnswerSelected(type){
         console.log("Quiz inside isAnswered "+this.props.isAnswered);
         return(
           <CSSTransitionGroup
-          className="container"
+          className="container poll"
           component="div"
           transitionName="fade"
           transitionEnterTimeout={800}
@@ -67,8 +55,7 @@ isAnswerSelected(type){
           transitionAppearTimeout={500}
         >
           <div key={this.props.questionId}>
-            <QuestionProfile/>
-            {/* <QuestionCount counter={this.props.questionId} total={this.props.questionTotal} /> */}
+            <UserInfo/>
             <Question content={this.props.question} />
             <ul className="answerOptions">
               {this.props.answerOptions.map(this.renderAnswerOptions)}
@@ -81,7 +68,7 @@ isAnswerSelected(type){
 
 }
 
-Quiz.propTypes = {
+Poll.propTypes = {
     answer: PropTypes.string.isRequired,
     answerOptions: PropTypes.array.isRequired,
     counter: PropTypes.number.isRequired,
@@ -91,4 +78,4 @@ Quiz.propTypes = {
     onAnswerSelected: PropTypes.func.isRequired
 };
 
-export default Quiz
+export default Poll
