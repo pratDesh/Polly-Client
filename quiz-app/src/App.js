@@ -5,6 +5,7 @@ import Question from './components/Question';
 import quizJsonQuestions from './api/quizJsonQuestions';
 import quizQuestions from './api/quizJsonQuestions';
 import Quiz from './components/Quiz';
+// import "react-bootstrap/dist/react-bootstrap.min.js";
 
 class App extends Component{
 
@@ -22,10 +23,12 @@ class App extends Component{
       userAnswer:'',
       answerSelected:'',
       correctAnswer:'',
-      isAnswered: false
+      isAnswered: false,
+      allData: undefined
     };
 
     this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
+    this.renderQuiz = this.renderQuiz.bind(this);
   }
 
   componentDidMount() {
@@ -33,7 +36,8 @@ class App extends Component{
 
     this.setState({
       question: quizQuestions[0].question,
-      answerOptions: shuffledAnswerOptions[0]
+      answerOptions: shuffledAnswerOptions[0],
+      allData: quizJsonQuestions
     });
   }
 
@@ -95,32 +99,29 @@ class App extends Component{
     });
   }
 
+  renderQuiz(key){
+    return(
+      <Quiz 
+      answer = {this.state.answer}
+      answerOptions = {this.state.answerOptions}
+      questionId = {this.state.questionId}
+      question = {key.question}
+      questionTotal = {quizQuestions.length}
+      onAnswerSelected = {this.handleAnswerSelected}
+      answerSelected = {this.state.answerSelected}
+      isAnswered = {this.state.isAnswered}
+      />
+    );
+  }
+
   render(){
     console.log('Before App Render '+this.state.answerSelected);
     return(
       <div className="App">
-        <Quiz 
-          answer = {this.state.answer}
-          answerOptions = {this.state.answerOptions}
-          questionId = {this.state.questionId}
-          question = {this.state.question}
-          questionTotal = {quizQuestions.length}
-          onAnswerSelected = {this.handleAnswerSelected}
-          answerSelected = {this.state.answerSelected}
-          isAnswered = {this.state.isAnswered}
-        />
+        {quizJsonQuestions.map(this.renderQuiz)}
       </div>
     );
   }
 }
 
 export default App;
-
-
-
-
-
-
-
-
-

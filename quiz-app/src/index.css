@@ -65,11 +65,36 @@ body {
 /* AnswerOption Component */
 .answerOption {
   border-top: 1px solid #eee;
+  /* background-color: red; */
 }
 
 /* Selected Option */
 .selectedAnswerOption {
   background-color: #8bc53f;
+}
+
+/*Question profile*/
+.questionProfile {
+  padding: 1.5rem 2.5rem 0;
+  font-size: 14px;
+}
+
+.profilePhoto {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background-size: contain;
+}
+
+/*React Info Component*/
+.reactInfo{
+  position: relative;
+  margin-top: 2%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1.5rem 2.5rem 0;
+  font-size: 14px;
 }
 
 .answerOption:hover {
@@ -96,6 +121,7 @@ body {
   padding: 1.5rem 2.5rem 1.5rem 5rem;
   font-size: 16px;
   line-height: 1.5;
+  /* background-color: green; */
 }
 
 .radioCustomButton ~ .radioCustomLabel:before {
