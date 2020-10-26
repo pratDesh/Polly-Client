@@ -5,12 +5,12 @@ import { CSSTransitionGroup } from 'react-transition-group';
 import ReactInfo from './ReactInfo';
 import PollChoices from './PollChoice';
 import UserInfo from './UserInfo';
+import { PollList } from './PollList';
 
 class Poll extends Component {
 
   constructor(props){
     super(props)
-
     this.state = {
       result: undefined
     }
@@ -18,6 +18,13 @@ class Poll extends Component {
     this.renderAnswerOptions = this.renderAnswerOptions.bind(this);
     this.isAnswerSelected = this.isAnswerSelected.bind(this);
     this.choiceSelected = this.choiceSelected.bind(this);
+  }
+
+  calculatePercentage(choice) {
+    if(this.props.poll.totalVotes === 0){
+      return 0;
+    }
+    return (choice.votes*100)/this.props.poll.totalVotes;
   }
 
   renderAnswerOptions(key){
@@ -44,6 +51,7 @@ isAnswerSelected(type){
   render(){
         console.log("AnswerSelected in Quiz "+this.props.answerSelected);
         console.log("Quiz inside isAnswered "+this.props.isAnswered);
+
         return(
           <CSSTransitionGroup
           className="container poll"
@@ -55,6 +63,7 @@ isAnswerSelected(type){
           transitionAppearTimeout={500}
         >
           <div key={this.props.questionId}>
+          <PollList />
             <UserInfo/>
             <Question content={this.props.question} />
             <ul className="answerOptions">
