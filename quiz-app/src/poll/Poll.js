@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Poll.css';
 import PropTypes from 'prop-types';
 import Question from './Question';
 import { CSSTransitionGroup } from 'react-transition-group';
@@ -8,14 +9,13 @@ import UserInfo from './UserInfo';
 import { PollList } from './PollList';
 
 class Poll extends Component {
-
   constructor(props){
     super(props)
     this.state = {
       result: undefined
     }
 
-    this.renderAnswerOptions = this.renderAnswerOptions.bind(this);
+    this.renderChoices = this.renderChoices.bind(this);
     this.isAnswerSelected = this.isAnswerSelected.bind(this);
     this.choiceSelected = this.choiceSelected.bind(this);
   }
@@ -27,12 +27,14 @@ class Poll extends Component {
     return (choice.votes*100)/this.props.poll.totalVotes;
   }
 
-  renderAnswerOptions(key){
+  renderChoices(key){
     return(
         <PollChoices 
-          choice={key.content}
-          choiceSelected={this.choiceSelected}
-          result={this.state.result}
+          id={key.id}
+          label={key.label}
+		  votes={key.votes}
+		  result = {this.state.result}
+		  choiceSelected = {this.props.handleChoiceSelected}
         />
     );
 }
@@ -49,42 +51,35 @@ isAnswerSelected(type){
 }
 
   render(){
-        console.log("AnswerSelected in Quiz "+this.props.answerSelected);
-        console.log("Quiz inside isAnswered "+this.props.isAnswered);
-
+		const poll = this.props.poll;
+		const pollChoices = poll.choices.map(this.renderChoices);
         return(
-          <CSSTransitionGroup
-          className="container poll"
-          component="div"
-          transitionName="fade"
-          transitionEnterTimeout={800}
-          transitionLeaveTimeout={500}
-          transitionAppear
-          transitionAppearTimeout={500}
-        >
-          <div key={this.props.questionId}>
-          <PollList />
-            <UserInfo/>
-            <Question content={this.props.question} />
-            <ul className="answerOptions">
-              {this.props.answerOptions.map(this.renderAnswerOptions)}
-            </ul>
-            <ReactInfo/>
-          </div>
-        </CSSTransitionGroup>
-      );
+			<div className = 'poll-content'>
+				<div className='poll-header'>
+					<Question content={poll.question} />
+				</div>
+				<div className='poll-choices'>
+					{pollChoices}
+				</div>
+				<div className='poll-footer'>
+					<ReactInfo/>
+				</div>
+			</div>
+        );
   }
 
 }
 
-Poll.propTypes = {
-    answer: PropTypes.string.isRequired,
-    answerOptions: PropTypes.array.isRequired,
-    counter: PropTypes.number.isRequired,
-    question: PropTypes.string.isRequired,
-    questionId: PropTypes.number.isRequired,
-    questionTotal: PropTypes.number.isRequired,
-    onAnswerSelected: PropTypes.func.isRequired
-};
+
+
+// Poll.propTypes = {
+//     answer: PropTypes.string.isRequired,
+//     answerOptions: PropTypes.array.isRequired,
+//     counter: PropTypes.number.isRequired,
+//     question: PropTypes.string.isRequired,
+//     questionId: PropTypes.number.isRequired,
+//     questionTotal: PropTypes.number.isRequired,
+//     onAnswerSelected: PropTypes.func.isRequired
+// };
 
 export default Poll

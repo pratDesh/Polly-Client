@@ -6,9 +6,10 @@ import '../index.css';
 class PollChoices extends Component {
     constructor(props){
         super(props);
+        
     }
     render(){
-        const choice = this.props.choice;
+        const choice = this.props.label;
         const result = this.props.result;
 
         return(

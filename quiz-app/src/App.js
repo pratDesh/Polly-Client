@@ -4,6 +4,7 @@ import './App.css';
 import quizJsonQuestions from './api/quizJsonQuestions';
 import quizQuestions from './api/quizJsonQuestions';
 import Poll from './poll/Poll';
+import { PollList } from './poll/PollList';
 
 class App extends Component{
 
@@ -101,7 +102,7 @@ class App extends Component{
     return(
       <Poll 
       answer = {this.state.answer}
-      answerOptions = {this.state.answerOptions}
+      choicesList = {this.state.answerOptions}
       questionId = {this.state.questionId}
       question = {key.question}
       questionTotal = {quizQuestions.length}
@@ -116,7 +117,8 @@ class App extends Component{
     console.log('Before App Render '+this.state.answerSelected);
     return(
       <div className="poll-container">
-        {quizJsonQuestions.map(this.renderQuiz)}
+        {/* {quizJsonQuestions.map(this.renderQuiz)} */}
+        <PollList />
       </div>
     );
   }
