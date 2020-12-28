@@ -1,16 +1,17 @@
-import { API_BASE_URL } from '../constants/constants'
+import { API_BASE_URL } from '../constants/constants';
 
 const request = (options) => {
     const headers = new Headers({
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
+        // 'Access-Control-Allow-Origin': '*'
     })
     
-    // if(localStorage.getItem(ACCESS_TOKEN)) {
-    //     headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
-    // }
-
     const defaults = {headers: headers};
     options = Object.assign({}, defaults, options);
+
+    const requestOptions = {
+        method: options.method
+    }
 
     return fetch(options.url, options)
     .then(response => 
@@ -35,10 +36,10 @@ export function getPolls(page, size) {
     });
 }
 
-export function castVote(pollId, choiceId){
+export function castVote(voteData){
 
     return request({
-        url: API_BASE_URL + "/vote",
+        url: API_BASE_URL +"/poll"+ "/vote/" + voteData.id + "/" + voteData.choiceId,
         method: 'PUT'
     });
 }

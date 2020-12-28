@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Component } from 'react';
 import Card from "react-bootstrap/Card";
-import '../index.css';
+import './PollChoice.css';
 
 class PollChoices extends Component {
     constructor(props){
@@ -11,13 +11,20 @@ class PollChoices extends Component {
     render(){
         const choice = this.props.label;
         const result = this.props.result;
+        const choiceId = this.props.id;
 
         return(
             <div className = "poll-choice">
-                <label onClick={() => this.props.choiceSelected(choice)}>
-                    <small>{choice}</small>
+                <label onClick={() => this.props.handleAnswered(choiceId)}>
+                    {choice}
                 </label>
-                { result ? <div>{result}%</div> : undefined}
+                {
+                    this.props.isAnswered ? (
+                        <div>
+                            <span> Hello </span>
+                        </div>
+                    ) :null
+                }
             </div>
         );
       

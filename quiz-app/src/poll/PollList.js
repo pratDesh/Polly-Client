@@ -7,7 +7,8 @@ export class PollList extends Component {
     constructor(props){
         super(props);
         this.state = {
-            polls: [] 
+            polls: [],
+            isAnswered: false
         };
         this.loadPolls = this.loadPolls.bind(this);
         this.handleChoiceSelected = this.handleChoiceSelected.bind(this);
@@ -22,48 +23,36 @@ export class PollList extends Component {
         
         promise
         .then(response =>{
-            console.log(response);
             const polls = this.state.polls.slice();
             this.setState({
                 polls: polls.concat(response)
             })
-            console.log("This is response content ",this.state.polls);
         }).catch(error =>{
 
         });
         console.log(this.state.polls);
     }
 
-    // handleVoteSubmit(event, pollIndex){
-    //     event.preventDefault();
-
-    //     const voteData = {
-    //         pollId : poll.id,
-    //         choiceId : selecetedChoice
-    //     }
-
-    //     castVote(voteData)
-    //     .then(response => {
-            
-    //     })
-    //     .catch(error => {
-
-    //     })
-
-    // }
-
     handleChoiceSelected(event,pollId){
-        var userAnswer = event.currentTarget.value;
-        // this.setState({
-        //   answerSelected: userAnswer,
-        //   isAnswered: true 
-        // });
-        // this.setUserAnswer(userAnswer);
-        // if(this.state.questionId < quizQuestions.length){
-        //   setTimeout(() => this.setNextQuestion(), 5000);
-        // }else{
-        //   //setTimeout(() => this.setResults(this.getResults()), 300);
-        // }
+        console.log("Event ",event);
+        console.log("PollId ",pollId);
+
+        const voteData = {
+            id: pollId,
+            choiceId:event
+        }
+
+        castVote(voteData).then(response =>{
+            const polls = this.state.polls.slice();
+            const pollIndex = polls.indexOf(polls.find(p => p.id === pollId));
+            polls[pollIndex] = response;
+            this.setState({
+                polls : polls
+            });
+            alert("Vote cast successfully"); 
+        }).catch(error => {
+            alert("Error occured during voting");
+        })
     }
 
     componentDidMount(){
@@ -76,8 +65,8 @@ export class PollList extends Component {
             pollViews.push(
                 <Poll 
                    key = {poll.id}
-                   poll = {poll} 
-                   handleChoiceSelected = {(event) => this.state.handleChoiceSelected(event,pollIndex)}
+                   poll = {poll}
+                   handleChoiceSelected = {(event) => this.handleChoiceSelected(event,poll.id)}
                 />
             )
         });

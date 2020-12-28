@@ -1,0 +1,30 @@
+.poll-choice {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    width: 90%;
+    margin-left: 25px;
+    border: 1px solid;
+    height: 30px;
+}
+
+.poll-choice:hover{
+    background-color: grey;
+}
+
+.poll-choice-radio-group {
+    display: block;
+}
+
+.poll-choice-radio {
+    display: block;
+    line-height: 1.7;
+    font-size: 15px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    max-width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: rgba(0, 0, 0, 0.75);
+}

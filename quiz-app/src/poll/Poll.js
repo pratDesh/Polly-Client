@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './Poll.css';
-import PropTypes from 'prop-types';
 import Question from './Question';
-import { CSSTransitionGroup } from 'react-transition-group';
 import ReactInfo from './ReactInfo';
 import PollChoices from './PollChoice';
 import UserInfo from './UserInfo';
@@ -12,12 +10,13 @@ class Poll extends Component {
   constructor(props){
     super(props)
     this.state = {
-      result: undefined
+	  result: undefined,
+	  isAnswered: false
     }
 
     this.renderChoices = this.renderChoices.bind(this);
-    this.isAnswerSelected = this.isAnswerSelected.bind(this);
-    this.choiceSelected = this.choiceSelected.bind(this);
+	this.calculatePercentage = this.calculatePercentage.bind(this);
+	this.handleAnswered = this.handleAnswered.bind(this);
   }
 
   calculatePercentage(choice) {
@@ -34,10 +33,25 @@ class Poll extends Component {
           label={key.label}
 		  votes={key.votes}
 		  result = {this.state.result}
-		  choiceSelected = {this.props.handleChoiceSelected}
+		  handleAnswered = {(event) => this.handleAnswered(event)}
+		  handleChoiceSelected = {this.props.handleChoiceSelected}
+		  isAnswered = {this.state.isAnswered}
         />
-    );
+	);
 }
+
+renderVotedPoll(key){
+	return(
+		<PollChoices 
+			id={key.id}
+			label={key.label}
+			votes={key.votes}
+			result = {this.state.result}
+			calculatePercentage = {this.calculatePercentage(key.id)}
+		/>
+	);
+}
+
 
 choiceSelected(choice){
   alert(choice);
@@ -46,8 +60,14 @@ choiceSelected(choice){
   });
 }
 
-isAnswerSelected(type){
-   return this.props.isAnswered && ('Sony' === type) ? true : false;
+handleAnswered(event){
+	console.log("Inside handle answer");
+	this.setState({
+		isAnswered: true
+	}, () => {
+		console.log("Is Answered ",this.state.isAnswered);
+	});
+	this.props.handleChoiceSelected(event);
 }
 
   render(){
@@ -69,17 +89,5 @@ isAnswerSelected(type){
   }
 
 }
-
-
-
-// Poll.propTypes = {
-//     answer: PropTypes.string.isRequired,
-//     answerOptions: PropTypes.array.isRequired,
-//     counter: PropTypes.number.isRequired,
-//     question: PropTypes.string.isRequired,
-//     questionId: PropTypes.number.isRequired,
-//     questionTotal: PropTypes.number.isRequired,
-//     onAnswerSelected: PropTypes.func.isRequired
-// };
 
 export default Poll
