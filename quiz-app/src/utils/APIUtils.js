@@ -37,9 +37,15 @@ export function getPolls(page, size) {
 }
 
 export function castVote(voteData){
-
     return request({
         url: API_BASE_URL +"/poll"+ "/vote/" + voteData.id + "/" + voteData.choiceId,
         method: 'PUT'
+    });
+}
+
+export function createPoll(pollData) {
+    return request({
+        url: API_BASE_URL,
+        method: 'POST'
     });
 }

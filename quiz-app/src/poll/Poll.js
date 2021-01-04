@@ -75,6 +75,9 @@ handleAnswered(event){
 		const pollChoices = poll.choices.map(this.renderChoices);
         return(
 			<div className = 'poll-content'>
+				<div className = 'poll-creator-info'>
+					<UserInfo />
+				</div>
 				<div className='poll-header'>
 					<Question content={poll.question} />
 				</div>
