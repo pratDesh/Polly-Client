@@ -5,7 +5,8 @@ import quizQuestions from './api/quizJsonQuestions';
 import Poll from './poll/Poll';
 import { PollList } from './poll/PollList';
 import NewPoll  from './poll/NewPoll/NewPoll';
-import Tryfile from './poll/Tryfile';
+import Login from './user/login/Login';
+import Signup from './user/signup/Signup';
 
 class App extends Component{
 
@@ -16,6 +17,8 @@ class App extends Component{
   render(){
     return(
       <div className="poll-container">
+        <Signup />
+        <Login />
         <NewPoll />
         <PollList />
       </div>

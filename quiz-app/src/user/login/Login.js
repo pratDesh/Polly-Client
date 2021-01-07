@@ -2,18 +2,6 @@ import React, { Component } from 'react';
 import './Login.css';
 
 class Login extends Component{
-
-    render(){
-
-        return(
-            <div>
-                Login
-            </div>
-        );
-    }
-}
-
-class SocialLogin extends Component{
     render(){
         return(
             <div className="login-container">
@@ -24,8 +12,26 @@ class SocialLogin extends Component{
                         <span className="or-text">OR</span>
                     </div>
                     <LoginForm {...this.props} />
-                    <span className="signup-link">New user? <Link to="/signup">Sign up!</Link></span>
+                    <span className="signup-link">New user? Sign up!</span>
                 </div>
+            </div>
+        );
+    }
+}
+
+class SocialLogin extends Component{
+    render(){
+        return(
+            <div className="social-login">
+                {/* <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>
+                    <img src={googleLogo} alt="Google" /> Log in with Google</a>
+                <a className="btn btn-block social-btn facebook" href={FACEBOOK_AUTH_URL}>
+                    <img src={fbLogo} alt="Facebook" /> Log in with Facebook</a> */}
+
+                <a className="btn btn-block social-btn google" >
+                    <img  alt="Google" /> Log in with Google</a>
+                <a className="btn btn-block social-btn facebook" >
+                    <img  alt="Facebook" /> Log in with Facebook</a>
             </div>
         );
     }
@@ -54,10 +60,11 @@ class LoginForm extends Component{
     }
 
     handleSubmit(event){
-        event.preventDefault;
+        event.preventDefault();
 
         const loginRequest = Object.assign({}, this.state);
 
+        console.log("Received Login request");
         //API call to Login.
     }
 
@@ -82,11 +89,12 @@ class LoginForm extends Component{
                             name="password"
                             className="form-control"
                             placeholder="Password"
-                            value={this.state.username}
+                            value={this.state.password}
                             onChange={this.handleInputChange}
                             required
                         />
                     </div>
+                    <div></div>
                     <div className="form-item">
                         <button type="submit" className="btn btn-block btn-primary">
                             Login
