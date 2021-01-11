@@ -23,7 +23,7 @@ class Poll extends Component {
     if(this.props.poll.totalVotes === 0){
       return 0;
     }
-    return (choice.votes*100)/this.props.poll.totalVotes;
+    return Math.round((choice.votes*100)/this.props.poll.totalVotes);
   }
 
   renderChoices(key){
@@ -32,7 +32,7 @@ class Poll extends Component {
           id={key.id}
           label={key.label}
 		  votes={key.votes}
-		  result = {this.state.result}
+		  result = {this.calculatePercentage(key)}
 		  handleAnswered = {(event) => this.handleAnswered(event)}
 		  handleChoiceSelected = {this.props.handleChoiceSelected}
 		  isAnswered = {this.state.isAnswered}
@@ -47,6 +47,7 @@ renderVotedPoll(key){
 			label={key.label}
 			votes={key.votes}
 			result = {this.state.result}
+			handleAnswered = {(event) => this.handleAnswered(event)}
 			calculatePercentage = {this.calculatePercentage(key.id)}
 		/>
 	);

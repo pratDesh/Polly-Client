@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Component } from 'react';
-import Card from "react-bootstrap/Card";
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import './PollChoice.css';
 
 class PollChoices extends Component {
@@ -14,17 +15,25 @@ class PollChoices extends Component {
         const choiceId = this.props.id;
 
         return(
-            <div className = "poll-choice">
-                <label onClick={() => this.props.handleAnswered(choiceId)}>
-                    {choice}
-                </label>
-                {
-                    this.props.isAnswered ? (
-                        <div>
-                            <span> Hello </span>
-                        </div>
-                    ) :null
-                }
+            <div className = "poll-choice" onClick={() => this.props.handleAnswered(choiceId)}>
+                <Row>
+                    <Col>
+                    <label>
+                        {choice}
+                        </label>
+                    </Col>
+
+                       <Col> </Col>
+                     <Col>
+                     {
+                            this.props.isAnswered ? (
+                                <div>
+                                    <span> {result} % </span>
+                                </div>
+                            ) :null
+                        }
+                     </Col>   
+                </Row>
             </div>
         );
       

@@ -8,7 +8,7 @@ class ReactInfo extends Component{
         return(
             <div className='reactInfo'>
                 <div>
-                    upVote downVote
+                    like 
                 </div>
             </div>
         );

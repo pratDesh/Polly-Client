@@ -49,7 +49,6 @@ export class PollList extends Component {
             this.setState({
                 polls : polls
             });
-            alert("Vote cast successfully"); 
         }).catch(error => {
             alert("Error occured during voting");
         })
