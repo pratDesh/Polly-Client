@@ -6,6 +6,8 @@ import Menu from 'antd/lib/menu/';
 import Dropdown from 'antd/lib/dropdown';
 import Icon from 'antd/lib/icon';
 
+import {Nav, Navbar, NavDropdown} from 'react-bootstrap';
+
 import './Header.css';
 
 const HeaderComp = Layout.Header;
@@ -20,29 +22,45 @@ class Header extends Component{
         let menuItems;
 
         menuItems = [
-            <Menu.Item key="/login">
-              <Link to="/login">Login</Link>
-            </Menu.Item>,
-            <Menu.Item key="/signup">
-              <Link to="/signup">Signup</Link>
-            </Menu.Item>                  
-          ];
+          <Menu.Item key="/login">
+            <Link to="/login">Login</Link>
+          </Menu.Item>,
+          <Menu.Item key="/signup">
+            <Link to="/signup">Signup</Link>
+          </Menu.Item>                  
+        ];
 
 
-        return (<HeaderComp className="app-header">
-        <div className="container">
-          <div className="app-title" >
-            <Link to="/">Polly</Link>
+        // return(
+        //   <Navbar bg="light" expand="lg">
+        //   <Navbar.Brand href="#home"></Navbar.Brand>
+        //   <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        //   <Navbar.Collapse id="basic-navbar-nav">
+        //     <Nav className="mr-auto">
+        //       <Nav.Link href="/login">Login</Nav.Link>
+        //       <Nav.Link href="/signup">Signup</Nav.Link>
+        //     </Nav>
+        //   </Navbar.Collapse>
+        // </Navbar>
+        // );
+
+
+        return (
+        
+          <HeaderComp className="app-header">
+          <div className="container">
+            <div className="app-title" >
+              <Link to="/">Polling App</Link>
+            </div>
+            <Menu
+              className="app-menu"
+              mode="horizontal"
+              selectedKeys={[this.props.location.pathname]}
+              style={{ lineHeight: '64px' }} >
+                {menuItems}
+            </Menu>
           </div>
-          <Menu
-            className="app-menu"
-            mode="horizontal"
-            selectedKeys={[this.props.location.pathname]}
-            style={{ lineHeight: '64px' }} >
-              {menuItems}
-          </Menu>
-        </div>
-      </HeaderComp>
+        </HeaderComp>
       );
 
     }

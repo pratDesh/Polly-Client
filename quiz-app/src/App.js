@@ -8,6 +8,7 @@ import NewPoll  from './poll/NewPoll/NewPoll';
 import Login from './user/login/Login';
 import Signup from './user/signup/Signup';
 import Header from './navigation/Header';
+import Navigation from './navigation/Navigation';
 
 import {
   Route,
@@ -16,6 +17,7 @@ import {
 } from 'react-router-dom';
 
 import { Layout, notification } from 'antd';
+import { getCurrentUser } from './utils/APIUtils';
 const { Content } = Layout;
 
 class App extends Component{
@@ -25,8 +27,31 @@ class App extends Component{
     this.state = {
       currentUser: null,
       isAuthenticated: false,
-      isLoading: false
+      isLoading: false,
+      flag: false
     }
+  }
+
+  loadCurrentUser(){
+    this.setState({
+      isLoading: true
+    })
+    getCurrentUser()
+    .then(response => {
+      this.setState({
+        currentUser: response,
+        isAuthenticated: true,
+        isLoading: false
+      })
+    }).catch(error => {
+      this.setState({
+        isLoading: false
+      })
+    });
+  }
+
+  componentDidMount(){
+    this.loadCurrentUser();
   }
 
   render(){
@@ -34,41 +59,27 @@ class App extends Component{
     return(
       <div className="app-container">
           <BrowserRouter>
-              <Header/>
-
-
-          <Content className="app-content">
-            <div className="container">
-              <Switch>      
-                {/* <Route exact path="/" 
-                  render={(props) => <PollList isAuthenticated={this.state.isAuthenticated} 
-                      currentUser={this.state.currentUser} {...props} />}>
-                </Route> */}
-                <Route path="/login" 
-                  render={(props) => <Login />}></Route>
-                <Route path="/signup" component={Signup}></Route>
-                {/* <Route path="/users/:username" 
-                  render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}>
-                </Route> */}
-                {/* <PrivateRoute authenticated={this.state.isAuthenticated} path="/poll/new" component={NewPoll} handleLogout={this.handleLogout}></PrivateRoute> */}
-                {/* <Route component={NotFound}></Route> */}
-              </Switch>
-              
-            </div>
-          </Content>
-
+            <Navigation
+              isAuthenticated = {this.state.flag}
+              currentUser = {this.state.currentUser}
+            />
+              {/* <Header/> */}
+              <Content className="app-content">
+                <div className="container">
+                  <Switch>      
+                    <Route exact path="/" 
+                      render={(props) => <PollList isAuthenticated={this.state.isAuthenticated} 
+                          currentUser={this.state.currentUser} {...props} />}>
+                    </Route>
+                    <Route path="/login" 
+                      render={(props) => <Login />}></Route>
+                    <Route path="/signup" component={Signup}></Route>
+                  </Switch>
+                </div>
+              </Content>
           </BrowserRouter>
         </div>
     );
-
-    // return(
-    //   <div className="poll-container">
-    //     {/* <Signup />
-    //     <Login />
-    //     <NewPoll /> */}
-    //     <PollList />
-    //   </div>
-    // );
   }
 }
 

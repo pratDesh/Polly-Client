@@ -2,13 +2,9 @@ import React, { Component } from 'react';
 import './NewPoll.css';
 import {createPoll} from '../../utils/APIUtils';
 
-import {Form, Input, Button, Select, Col, notification} from 'antd';
+import {Form, FormGroup, FormLabel, FormControl, Button, Input} from 'react-bootstrap';
 
 import {MAX_CHOICES, POLL_QUESTION_MAX_LENGTH, POLL_CHOICE_MAX_LENGTH} from '../../constants/constants';
-
-const Option = Select.Option;
-const FormItem = Form.Item;
-const { TextArea } = Input
 
 class NewPoll extends Component{
     constructor(props){
@@ -42,6 +38,7 @@ class NewPoll extends Component{
                 text:''
             }])
         });
+        console.log("Choice added");
     }
 
     removeChoice(choiceNumber){
@@ -76,6 +73,7 @@ class NewPoll extends Component{
     }
 
     handleSubmit(event){
+        event.preventDefault(); 
         console.log(event);
         const pollData = {
             question: this.state.question.text,
@@ -158,10 +156,10 @@ class NewPoll extends Component{
             <div className = "new-poll-container" >
                 <h1 className="page-title">Create Poll</h1>
                 <div className="new-poll-content">
-                <Form onFinish={this.handleSubmit} className="create-poll-form">
-                        <FormItem validateStatus={this.state.question.validateStatus}
+                <Form onSubmit={this.handleSubmit} className="create-poll-form">
+                        <FormGroup validatestatus={this.state.question.validateStatus}
                             help={this.state.question.errorMsg} className="poll-form-row">
-                            <Input
+                            <FormControl
                                 placeholder="Enter your Question"
                                 style ={{fontSize: '16px'}}
                                 autosize={{minRows:3, maxRows: 6}}
@@ -169,21 +167,28 @@ class NewPoll extends Component{
                                 value = {this.state.question.text}
                                 onChange = {this.handleQuestionChange}
                             />
-                        </FormItem>
+                        </FormGroup>
                         {choiceViews}
-                        <FormItem className="poll-form-row">
-                            <Button type="primary" onClick={this.addChoice} disabled={this.state.choices.length === MAX_CHOICES}>
+                        <FormGroup className="poll-form-row">
+                            <Button 
+                                variant="primary" 
+                                onClick={this.addChoice} 
+                                disabled={this.state.choices.length === MAX_CHOICES}>
                                     Add a choice
                             </Button>
-                        </FormItem>
-                        <FormItem className="poll-form-row">
-                            <Button type="primary" 
-                                htmlType="submit" 
+                        </FormGroup>
+
+                        <FormGroup className="poll-form-row">
+                            <Button 
+                                variant="primary" 
+                                type="submit"
                                 size="large" 
                                 disabled={this.isFormInvalid()}
-                            className="create-poll-form-button">Create Poll</Button>
-                        </FormItem>
-                    </Form>
+                                className="create-poll-form-button">
+                                    Create Poll
+                            </Button>
+                        </FormGroup>
+                </Form>
                 </div>
             </div>
         );
@@ -192,9 +197,9 @@ class NewPoll extends Component{
 
 function PollChoice(props) {
     return (
-        <FormItem validateStatus={props.choice.validateStatus}
+        <FormGroup validatestatus={props.choice.validateStatus}
         help={props.choice.errorMsg} className="poll-form-row">
-            <Input 
+            <FormControl 
                 placeholder = {'Choice ' + (props.choiceNumber + 1)}
                 size="large"
                 value={props.choice.text} 
@@ -206,7 +211,7 @@ function PollChoice(props) {
                     <div onClick={() => props.removeChoice(props.choiceNumber)}>remove icon</div>
                 ): null
             }    
-        </FormItem>
+        </FormGroup>
     );
 }
 
