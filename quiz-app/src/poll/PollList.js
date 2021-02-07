@@ -20,7 +20,7 @@ export class PollList extends Component {
         if(!promise){
             return;
         }
-        
+
         promise
         .then(response =>{
             const polls = this.state.polls.slice();
@@ -34,9 +34,6 @@ export class PollList extends Component {
     }
 
     handleChoiceSelected(event,pollId){
-        console.log("Event ",event);
-        console.log("PollId ",pollId);
-
         const voteData = {
             id: pollId,
             choiceId:event
@@ -47,7 +44,7 @@ export class PollList extends Component {
             const pollIndex = polls.indexOf(polls.find(p => p.id === pollId));
             polls[pollIndex] = response;
             this.setState({
-                polls : polls
+                polls: polls
             });
         }).catch(error => {
             alert("Error occured during voting");
@@ -62,7 +59,7 @@ export class PollList extends Component {
         const pollViews = [];
         this.state.polls.forEach((poll, pollIndex)=>{
             pollViews.push(
-                <Poll 
+                <Poll
                    key = {poll.id}
                    poll = {poll}
                    handleChoiceSelected = {(event) => this.handleChoiceSelected(event,poll.id)}
@@ -76,5 +73,5 @@ export class PollList extends Component {
             </div>
         );
     }
-} 
+}
 

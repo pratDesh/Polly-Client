@@ -33,21 +33,21 @@ class App extends Component{
   }
 
   loadCurrentUser(){
-    this.setState({
-      isLoading: true
-    })
-    getCurrentUser()
-    .then(response => {
       this.setState({
-        currentUser: response,
-        isAuthenticated: true,
-        isLoading: false
+        isLoading: true
       })
-    }).catch(error => {
-      this.setState({
-        isLoading: false
-      })
-    });
+      getCurrentUser()
+      .then(response => {
+        this.setState({
+          currentUser: response,
+          isAuthenticated: true,
+          isLoading: false
+        })
+      }).catch(error => {
+        this.setState({
+          isLoading: false
+        })
+      });
   }
 
   componentDidMount(){
@@ -66,12 +66,12 @@ class App extends Component{
               {/* <Header/> */}
               <Content className="app-content">
                 <div className="container">
-                  <Switch>      
-                    <Route exact path="/" 
-                      render={(props) => <PollList isAuthenticated={this.state.isAuthenticated} 
+                  <Switch>
+                    <Route exact path="/"
+                      render={(props) => <PollList isAuthenticated={this.state.isAuthenticated}
                           currentUser={this.state.currentUser} {...props} />}>
                     </Route>
-                    <Route path="/login" 
+                    <Route path="/login"
                       render={(props) => <Login />}></Route>
                     <Route path="/signup" component={Signup}></Route>
                   </Switch>

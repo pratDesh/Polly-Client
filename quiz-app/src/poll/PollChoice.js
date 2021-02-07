@@ -7,12 +7,13 @@ import './PollChoice.css';
 class PollChoices extends Component {
     constructor(props){
         super(props);
-        
+
     }
     render(){
         const choice = this.props.label;
         const result = this.props.result;
         const choiceId = this.props.id;
+        const selectedChoice = this.props.selectedChoice;
 
         return(
             <div className = "poll-choice" onClick={() => this.props.handleAnswered(choiceId)}>
@@ -20,7 +21,7 @@ class PollChoices extends Component {
                     <Col>
                     <label>
                         {choice}
-                        </label>
+                    </label>
                     </Col>
 
                        <Col> </Col>
@@ -32,11 +33,11 @@ class PollChoices extends Component {
                                 </div>
                             ) :null
                         }
-                     </Col>   
+                     </Col>
                 </Row>
             </div>
         );
-      
+
     }
 }
 

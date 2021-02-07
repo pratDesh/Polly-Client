@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './Login.css';
+import {ACCESS_TOKEN} from "../../constants/constants";
+import {login} from "../../utils/APIUtils";
 
 class Login extends Component{
     render(){
@@ -42,7 +44,7 @@ class LoginForm extends Component{
     constructor(props){
         super(props);
         this.state = {
-            email:'',
+            usernameOrEmail: '',
             password:''
         }
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -61,11 +63,17 @@ class LoginForm extends Component{
 
     handleSubmit(event){
         event.preventDefault();
-
         const loginRequest = Object.assign({}, this.state);
-
-        console.log("Received Login request");
-        //API call to Login.
+        login(loginRequest)
+            .then(response => {
+                console.log("Login respons: " + response);
+                localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+                alert("You're successfully logged in!");
+                this.props.history.push("/");
+            })
+            .catch(error => {
+                alert((error && error.message) || 'Oops! Something went wrong. Please try again!');
+            });
     }
 
     render(){
@@ -73,18 +81,17 @@ class LoginForm extends Component{
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-item">
-                        <input 
-                            type="email"
-                            name="username"
+                        <input
+                            name="usernameOrEmail"
                             className="form-control"
-                            placeholder="Username"
-                            value={this.state.username}
+                            placeholder="Username or Email"
+                            value={this.state.usernameOrEmail}
                             onChange={this.handleInputChange}
                             required
                         />
                     </div>
                     <div className="form-item">
-                        <input 
+                        <input
                             type="password"
                             name="password"
                             className="form-control"

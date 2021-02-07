@@ -73,19 +73,25 @@ class NewPoll extends Component{
     }
 
     handleSubmit(event){
-        event.preventDefault(); 
+        event.preventDefault();
         console.log(event);
         const pollData = {
             question: this.state.question.text,
             choices: this.state.choices.map(choice=>{
                 return {text: choice.text}
             })
-        }
-        console.log(pollData);
-        // createPoll(pollData)
-        // .then()
-        // .catch();
-
+        };
+        createPoll(pollData)
+            .then(response => {
+                this.props.history.push("/");
+            })
+            .catch(error => {
+                if (error.status === 401) {
+                    alert("You have been logged out please Log in again");
+                } else {
+                    alert("Oops! Something went wrong. Please try again");
+                }
+            });
     }
 
     validateQuestion = (questionText) => {
@@ -118,7 +124,7 @@ class NewPoll extends Component{
             return {
                 validateStatus: 'error',
                 errorMsg: `Choice is too long (Maximum ${POLL_CHOICE_MAX_LENGTH} characters allowed)`
-            }    
+            }
         } else {
             return {
                 validateStatus: 'success',
@@ -131,9 +137,9 @@ class NewPoll extends Component{
         if(this.state.question.validateStatus !== 'success') {
             return true;
         }
-    
+
         for(let i = 0; i < this.state.choices.length; i++) {
-            const choice = this.state.choices[i];            
+            const choice = this.state.choices[i];
             if(choice.validateStatus !== 'success') {
                 return true;
             }
@@ -143,7 +149,7 @@ class NewPoll extends Component{
     render(){
         const choiceViews = [];
         this.state.choices.forEach((choice, index) => {
-            choiceViews.push(<PollChoice 
+            choiceViews.push(<PollChoice
                                 key={index}
                                 choice={choice}
                                 choiceNumber={index}
@@ -170,19 +176,19 @@ class NewPoll extends Component{
                         </FormGroup>
                         {choiceViews}
                         <FormGroup className="poll-form-row">
-                            <Button 
-                                variant="primary" 
-                                onClick={this.addChoice} 
+                            <Button
+                                variant="primary"
+                                onClick={this.addChoice}
                                 disabled={this.state.choices.length === MAX_CHOICES}>
                                     Add a choice
                             </Button>
                         </FormGroup>
 
                         <FormGroup className="poll-form-row">
-                            <Button 
-                                variant="primary" 
+                            <Button
+                                variant="primary"
                                 type="submit"
-                                size="large" 
+                                size="large"
                                 disabled={this.isFormInvalid()}
                                 className="create-poll-form-button">
                                     Create Poll
@@ -199,10 +205,10 @@ function PollChoice(props) {
     return (
         <FormGroup validatestatus={props.choice.validateStatus}
         help={props.choice.errorMsg} className="poll-form-row">
-            <FormControl 
+            <FormControl
                 placeholder = {'Choice ' + (props.choiceNumber + 1)}
                 size="large"
-                value={props.choice.text} 
+                value={props.choice.text}
                 className={ props.choiceNumber > 1 ? "optional-choice": null}
                 onChange={(event) => props.handleChoiceChange(event, props.choiceNumber)} />
 
@@ -210,7 +216,7 @@ function PollChoice(props) {
                 props.choiceNumber > 1 ? (
                     <div onClick={() => props.removeChoice(props.choiceNumber)}>remove icon</div>
                 ): null
-            }    
+            }
         </FormGroup>
     );
 }

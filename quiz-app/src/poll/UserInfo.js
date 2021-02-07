@@ -4,33 +4,21 @@ import { Container } from '@material-ui/core';
 import {getAvatarColor} from '../utils/UserColorUtil';
 
 export default function UserInfo(props){
-    const name = "Rami1";
-
     return(
         <div>
-            <Avatar className="poll-creator-avatar" 
-                style={{ backgroundColor: getAvatarColor(name)}} >
+            <Avatar className="poll-creator-avatar"
+                    style={{backgroundColor: getAvatarColor(props.name)}}>
             </Avatar>
             <span className="poll-creator-name">
-                Ramu kaka
+                  {props.name}
             </span>
             <span className="poll-creator-username">
-                @ramulal
+                {props.username}
             </span>
             <span className="poll-creation-date">
                 14 min ago
             </span>
-        </div>          
+        </div>
 
-        // <div className='user-info'>
-        //             <div className='user-photo' />
-        //             <Avatar>H</Avatar>
-        //             <span>
-        //             Ramu kaka . 14m ago
-        //             </span>
-        //             {/* <span>
-        //             Expert memer
-        //             </span> */}
-        // </div>
     );
 }

@@ -3,17 +3,17 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
 class ReactInfo extends Component{
-
+//TODO  Implement reacts
     render() {
         return(
             <div className='reactInfo'>
                 <div>
-                    like 
+                    {/*like */}
                 </div>
             </div>
         );
     }
-    
+
 }
 
 export default ReactInfo

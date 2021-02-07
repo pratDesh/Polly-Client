@@ -11,47 +11,51 @@ class Poll extends Component {
     super(props)
     this.state = {
 	  result: undefined,
-	  isAnswered: false
+		isAnswered: false,
+		selectedChoice: undefined
     }
 
     this.renderChoices = this.renderChoices.bind(this);
 	this.calculatePercentage = this.calculatePercentage.bind(this);
 	this.handleAnswered = this.handleAnswered.bind(this);
+	  this.renderVotedPoll = this.renderVotedPoll.bind(this);
   }
 
   calculatePercentage(choice) {
-    if(this.props.poll.totalVotes === 0){
-      return 0;
-    }
-    return Math.round((choice.votes*100)/this.props.poll.totalVotes);
+	  console.log(choice);
+	  if (this.props.poll.totalVotes === 0) {
+		  return 0;
+	  }
+	  let count = (choice.id === this.state.selectedChoice) ? choice.votes + 1 : choice.votes;
+	  return Math.round((choice.votes * 100) / (this.props.poll.totalVotes + 1));
   }
 
   renderChoices(key){
     return(
-        <PollChoices 
-          id={key.id}
-          label={key.label}
-		  votes={key.votes}
-		  result = {this.calculatePercentage(key)}
-		  handleAnswered = {(event) => this.handleAnswered(event)}
-		  handleChoiceSelected = {this.props.handleChoiceSelected}
-		  isAnswered = {this.state.isAnswered}
-        />
-	);
-}
-
-renderVotedPoll(key){
-	return(
-		<PollChoices 
+		<PollChoices
 			id={key.id}
 			label={key.label}
 			votes={key.votes}
-			result = {this.state.result}
-			handleAnswered = {(event) => this.handleAnswered(event)}
-			calculatePercentage = {this.calculatePercentage(key.id)}
+			result={this.state.result}
+			handleAnswered={(event) => this.handleAnswered(event)}
+			isAnswered={this.state.isAnswered}
 		/>
 	);
 }
+
+	renderVotedPoll(key) {
+		return (
+			<PollChoices
+				id={key.id}
+				label={key.label}
+				votes={key.votes}
+				result={this.calculatePercentage(key)}
+				handleAnswered={(event) => this.handleAnswered(event)}
+				handleChoiceSelected={this.props.handleChoiceSelected}
+				isAnswered={this.state.isAnswered}
+			/>
+		);
+	}
 
 
 choiceSelected(choice){
@@ -62,22 +66,31 @@ choiceSelected(choice){
 }
 
 handleAnswered(event){
-	console.log("Inside handle answer");
+	console.log("Handle Anss " + event);
 	this.setState({
-		isAnswered: true
+		isAnswered: true,
+		selectedChoice: event
 	}, () => {
-		console.log("Is Answered ",this.state.isAnswered);
 	});
 	this.props.handleChoiceSelected(event);
 }
 
   render(){
-		const poll = this.props.poll;
-		const pollChoices = poll.choices.map(this.renderChoices);
+	  //TODO : remove temporary usernames.
+	  const poll = this.props.poll;
+	  let pollChoices = {};
+	  if (this.state.isAnswered) {
+		  pollChoices = poll.choices.map(this.renderVotedPoll);
+	  } else {
+		  pollChoices = poll.choices.map(this.renderChoices);
+	  }
         return(
 			<div className = 'poll-content'>
 				<div className = 'poll-creator-info'>
-					<UserInfo />
+					<UserInfo
+						username={(poll.createdBy !== null) ? poll.createdBy.username : "Ramu"}
+						name={(poll.createdBy !== null) ? poll.createdBy.name : "romil17"}
+					/>
 				</div>
 				<div className='poll-header'>
 					<Question content={poll.question} />

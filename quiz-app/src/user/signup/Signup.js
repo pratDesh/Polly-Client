@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import './Signup.css';
+import {signup} from "../../utils/APIUtils";
 
 class Signup extends Component{
-    
+
     render(){
         return (
             <div className="signup-container">
@@ -44,11 +45,10 @@ class SignupForm extends Component{
         super(props)
         this.state = {
             name:'',
+            username: '',
             email:'',
             password:''
         }
-
-
     }
 
     handleInputChange(event){
@@ -60,38 +60,49 @@ class SignupForm extends Component{
             [field]:value
         });
     }
-    
-    handleSubmit(event) {
-        event.preventDefault();   
-        const signUpRequest = Object.assign({}, this.state);
 
-        //Todo Signup API
+    handleSubmit(event) {
+        event.preventDefault();
+        const signUpRequest = Object.assign({}, this.state);
+        signup(signUpRequest)
+            .then(response => {
+                alert("Thank you! You are successfully registered!")
+                this.props.history.push("/login");
+            })
+            .catch(error => {
+                alert("Oops! Something went wrong!");
+            });
+
     }
 
     render(){
-
         return(
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-item">
-                        <input type="text" name="name" 
-                            className="form-control" placeholder="Name"
-                            value={this.state.name} onChange={this.handleInputChange} required/>
+                        <input type="text" name="name"
+                               className="form-control" placeholder="Name"
+                               value={this.state.name} onChange={this.handleInputChange} required/>
                     </div>
                     <div className="form-item">
-                        <input type="email" name="email" 
-                            className="form-control" placeholder="Email"
-                            value={this.state.email} onChange={this.handleInputChange} required/>
+                        <input type="text" name="username"
+                               className="form-control" placeholder="Username"
+                               value={this.state.username} onChange={this.handleInputChange} required/>
                     </div>
                     <div className="form-item">
-                        <input type="password" name="password" 
-                            className="form-control" placeholder="Password"
-                            value={this.state.password} onChange={this.handleInputChange} required/>
+                        <input type="email" name="email"
+                               className="form-control" placeholder="Email"
+                               value={this.state.email} onChange={this.handleInputChange} required/>
+                    </div>
+                    <div className="form-item">
+                        <input type="password" name="password"
+                               className="form-control" placeholder="Password"
+                               value={this.state.password} onChange={this.handleInputChange} required/>
                     </div>
                     <div className="form-item">
                         <button type="submit" className="btn btn-block btn-primary" >Sign Up</button>
                     </div>
-                </form>           
+                </form>
             </div>
         );
     }
