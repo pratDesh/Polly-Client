@@ -77,6 +77,7 @@ handleAnswered(event){
 
   render(){
 	  //TODO : remove temporary usernames.
+	  // Once all polls have users associated.
 	  const poll = this.props.poll;
 	  let pollChoices = {};
 	  if (this.state.isAnswered) {
