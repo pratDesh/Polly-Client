@@ -1,5 +1,11 @@
 # OpinionModule
 
-Twitter Poll like Clone.
+Polling webapp.
 
-Current status: Non persistent data. 
+Implemented User creation, poll creation, user polling.
+
+Tech Stack : ReactJS, Javascript.
+
+JWT token based security implemented.
+
+Server side : https://github.com/pratDesh/Polly
