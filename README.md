@@ -1,4 +1,4 @@
-# OpinionModule
+# Polly-client
 
 Polling webapp.
 
